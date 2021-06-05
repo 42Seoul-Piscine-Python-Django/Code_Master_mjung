@@ -144,3 +144,6 @@ ID_LIST = [
 EXFIRE_TIME = 42
 
 SESSSION_TIME_KEY = '_for__anonymous_session_key_sparkk'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL)
