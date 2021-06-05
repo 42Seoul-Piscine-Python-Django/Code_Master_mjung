@@ -12,7 +12,7 @@ urlpatterns = [
     path('', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
     path('tip/', views.Tip.as_view(), name='tip'),
-    # path('profile/', views.Profile_Edit.as_view(), name='profile'),
+    path('profile/', views.Profile_Edit, name='profile'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
