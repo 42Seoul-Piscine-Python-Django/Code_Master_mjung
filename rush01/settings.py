@@ -137,7 +137,8 @@ ID_LIST = [
     "Desperados",
     "Hoggarden",
     "Kozel",
-    "bigWave"
+    "bigWave",
+    "Hite"
 ]
 
 EXFIRE_TIME = 42
