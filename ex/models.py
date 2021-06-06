@@ -89,3 +89,13 @@ class Article(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+class Comment(models.Model):
+    post = models.ForeignKey(Article, on_delete=models.CASCADE)
+    #댓글이 달릴 글은 Article이라는 Model의 객체이므로 ForeignKey로 Article을 참조한다. 그리고 on_delete옵션은 여러가지가 있는데
+    #일반적으로 CASCADE옵션을 주게되면 글이 삭제될때 FK로 참조하고있었던 댓글들도 같이 삭제가 된다.
+    body = models.CharField('댓글',max_length=150)  #제일 첫번째 parameter로 '댓글'을 추가해주면 해당 field의 label값으로 body가 아닌 '댓글'이 붙게 된다.
+    created_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.body

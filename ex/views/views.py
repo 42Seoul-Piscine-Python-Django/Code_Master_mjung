@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import db
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rush01 import settings
 from django.conf.urls.static import static
 
@@ -25,6 +25,7 @@ from ex.forms import (
     ProfileForm,
     RegisterForm,
     PublishForm,
+    CommentForm,
 )
 from ex.models import TipModel, Profile, Article
 from django.urls import reverse_lazy
@@ -256,13 +257,54 @@ class ArticleView(ListView):
         context = super().get_context_data(**kwargs)
 
 
-class Detail_View(DetailView):
-    template_name = "post_detail.html"
-    model = Article
+# class Detail_View(DetailView):
+#     template_name = "post_detail.html"
+#     model = Article
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         print(context)
+#         return context
+    
+
+def article_detail(request, pk):
+    
+    article = get_object_or_404(Article, pk=pk)
+
+    #만약 post일때만 댓글 입력에 관한 처리를 더한다.
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        comment_form.instance.author_id = request.user.id
+        comment_form.instance.document_id = pk
+        if comment_form.is_valid():
+            comment = comment_form.save()
+
+
+    #models.py에서 document의 related_name을 comments로 해놓았다.
+
+    comment_form = CommentForm()
+    comments = Article.objects.get(id=pk)
+    # c_all = Article.objects.all(id=pk)
+    c_all= Article.objects.all()
+    print("====================================")
+    print(article)
+    print("====================================")
+
+    return render(request, 'post_detail.html', {'object':article, "comments":comments, "comment_form":comment_form})
+
+class Create_comment(View):
+
+    def get(self, request, commnets_id):
+        return redirect('detail', commnets_id) #redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
+
+
+    def post(self, request, commnets_id):
+        filled_form = CommentForm(request.POST)
+        if filled_form.is_valid():    
+            temp_form = filled_form.save(commit=False)  
+            temp_form.post = Article.objects.get(id = commnets_id)
+            temp_form.save()
+        return redirect('detail', commnets_id) #redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
 
 
 class Publish(LoginRequiredMixin, FormView):

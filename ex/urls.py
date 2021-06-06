@@ -14,9 +14,13 @@ urlpatterns = [
     path("profile/", views.Profile_Edit, name="profile"),
     path("admin/", views.Admin_edit, name="admin"),
     path("articles/", views.ArticleView.as_view(), name="article"),
-    path("detail/<pk>", views.Detail_View.as_view(), name="detail"),
+    # path("detail/<pk>", views.Detail_View.as_view(), name="detail"),
+    path("detail/<pk>", views.article_detail, name="detail"),
     path("publicate/", views.PublicView.as_view(), name="publication"),
     path("publish/", views.Publish.as_view(), name="publish"),
+
+    path('create_comment/<int:commnets_id>', views.Create_comment.as_view() , name="create_comment"),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
