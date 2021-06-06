@@ -265,13 +265,13 @@ class ArticleView(ListView):
 #         context = super().get_context_data(**kwargs)
 #         print(context)
 #         return context
-    
+
 
 def article_detail(request, pk):
-    
+
     article = get_object_or_404(Article, pk=pk)
 
-    #만약 post일때만 댓글 입력에 관한 처리를 더한다.
+    # 만약 post일때만 댓글 입력에 관한 처리를 더한다.
     if request.method == "POST":
         comment_form = CommentForm(request.POST)
         comment_form.instance.author_id = request.user.id
@@ -279,32 +279,35 @@ def article_detail(request, pk):
         if comment_form.is_valid():
             comment = comment_form.save()
 
-
-    #models.py에서 document의 related_name을 comments로 해놓았다.
+    # models.py에서 document의 related_name을 comments로 해놓았다.
 
     comment_form = CommentForm()
     comments = Article.objects.get(id=pk)
-    # c_all = Article.objects.all(id=pk)
-    c_all= Article.objects.all()
-    print("====================================")
-    print(article)
-    print("====================================")
 
-    return render(request, 'post_detail.html', {'object':article, "comments":comments, "comment_form":comment_form})
+
+    return render(
+        request,
+        "post_detail.html",
+        {"object": article, "comments": comments, "comment_form": comment_form},
+    )
+
 
 class Create_comment(View):
-
     def get(self, request, commnets_id):
-        return redirect('detail', commnets_id) #redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
-
+        return redirect(
+            "detail", commnets_id
+        )  # redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
 
     def post(self, request, commnets_id):
         filled_form = CommentForm(request.POST)
-        if filled_form.is_valid():    
-            temp_form = filled_form.save(commit=False)  
-            temp_form.post = Article.objects.get(id = commnets_id)
+        if filled_form.is_valid():
+            temp_form = filled_form.save(commit=False)
+            temp_form.post = Article.objects.get(id=commnets_id)
+            temp_form.author = self.request.user
             temp_form.save()
-        return redirect('detail', commnets_id) #redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
+        return redirect(
+            "detail", commnets_id
+        )  # redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
 
 
 class Publish(LoginRequiredMixin, FormView):

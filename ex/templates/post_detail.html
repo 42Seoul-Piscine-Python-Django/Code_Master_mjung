@@ -22,8 +22,8 @@
 </form>
 {% for i in object.comment_set.all %}
 
-<p>{{i.created_at}}</p>
 <p>-> {{i}}</p>
+<p>{{i.author}}</p>
 <p>{{i.created_at}}</p>
 <hr>
 {%endfor%}
