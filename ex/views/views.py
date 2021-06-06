@@ -1,5 +1,6 @@
-from typing import Any
+from typing import Any, Dict
 from django.db.utils import DatabaseError
+from django.http import request
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import redirect
@@ -88,6 +89,19 @@ class Login(FormView):
     template_name = "login.html"
     form_class = AuthenticationForm
     success_url = reverse_lazy('index')
+
+    def get_initial(self) -> Dict[str, Any]:
+        initial = super().get_initial()
+        initial['username'] = self.request.username
+        initial['first_name'] = self.request.first_name
+        initial['last_name'] = self.request.last_name
+        initial['email'] = self.request.id
+        initial['content'] = self.request.content
+        initial['author'] = self.request.author
+        initial['image'] = self.request.image
+        initial['nickname'] = self.request.nickname
+        initial['description'] = self.request.description
+        return initial
 
     def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         if self.request.user.is_authenticated:
