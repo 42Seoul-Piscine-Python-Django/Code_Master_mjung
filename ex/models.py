@@ -76,3 +76,16 @@ class Profile(models.Model):
     # last_name = 
 
 
+class Article(models.Model):
+    title = models.CharField(max_length=64, null=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    # synopsis = models.CharField(max_length=312, null=False)
+    content = models.TextField(null=False)
+
+    # 내림차순
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return str(self.title)

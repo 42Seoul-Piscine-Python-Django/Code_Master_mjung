@@ -1,70 +1,79 @@
-
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
 from django.db import models
-from django.forms.widgets import HiddenInput
+from django.forms.widgets import HiddenInput, Textarea
 from ..models import Profile
 from django.contrib.auth import get_user_model
+
 
 class Loginform(forms.Form):
     id = forms.CharField(required=True)
     pw = forms.CharField(required=True)
 
+
 class TipForm(forms.Form):
     content = forms.CharField(required=True)
 
+
 class DeleteTipForm(forms.Form):
-    _method = forms.CharField(widget=HiddenInput(), initial='delete')
+    _method = forms.CharField(widget=HiddenInput(), initial="delete")
     id = forms.IntegerField(widget=HiddenInput())
 
     def __init__(self, id, *args, **kwargs):
         super(DeleteTipForm, self).__init__(*args, **kwargs)
         if id:
-            self.fields['id'].initial = id
+            self.fields["id"].initial = id
+
 
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username",  "password1", "password2")
+        fields = ("username", "password1", "password2")
+
 
 class VoteForm(forms.Form):
-    _method = forms.CharField(widget=HiddenInput(), initial='put')
+    _method = forms.CharField(widget=HiddenInput(), initial="put")
     id = forms.IntegerField(widget=HiddenInput())
     type = forms.BooleanField(required=False)
+
     def __init__(self, id, *args, **kwargs):
-        super(VoteForm, self).__init__(auto_id='%s', *args, **kwargs)
+        super(VoteForm, self).__init__(auto_id="%s", *args, **kwargs)
         if id:
-            self.fields['id'].initial = id
+            self.fields["id"].initial = id
 
 
 class CustomUserChangeForm(UserChangeForm):
     password = None
+
     class Meta:
         model = get_user_model()
-        fields = ['email', 'first_name', 'last_name']
+        fields = ["email", "first_name", "last_name"]
 
-    
+
 class ProfileForm(forms.ModelForm):
     nickname = forms.CharField(label="nickname", required=True)
-    description = forms.CharField(label="Introduce your Self!", required=False, widget=forms.Textarea())
+    description = forms.CharField(
+        label="Introduce your Self!", required=False, widget=forms.Textarea()
+    )
     image = forms.ImageField(label="pic..smallsize please..", required=False)
-       # 위의 내용을 정의하지 않아도 상관없지만, 화면에 출력될 때 label이 영문으로 출력되는 것이 싫어서 수정한 것이다..
+    # 위의 내용을 정의하지 않아도 상관없지만, 화면에 출력될 때 label이 영문으로 출력되는 것이 싫어서 수정한 것이다..
 
-    def __init__(self,nickname, description, image  ,*args, **kwargs) -> None:
+    def __init__(self, nickname, description, image, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.fields['nickname'].initial = nickname
-        self.fields['description'].initial = description
-        self.fields['image'].initial = image
+        self.fields["nickname"].initial = nickname
+        self.fields["description"].initial = description
+        self.fields["image"].initial = image
+
     class Meta:
         model = Profile
-        fields = ['nickname', 'description', 'image']
+        fields = ["nickname", "description", "image"]
 
 
-
-
-
-
+class PublishForm(forms.Form):
+    title = forms.CharField(max_length=64, required=True)
+    # synopsis = forms.CharField(max_length=312, required=True)
+    content = forms.CharField(widget=Textarea(), required=True)
 
 
 # class RegisterForm(forms.Form):
