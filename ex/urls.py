@@ -24,7 +24,7 @@ urlpatterns = [
         name="create_comment",
     ),
     path(
-        "create_recomment/<int:recomment_id>", views.Create_recomment, name="create_recomment"
+        "create_recomment/<int:commnets_id>", views.Create_recomment, name="create_recomment"
     ),
 ]
 

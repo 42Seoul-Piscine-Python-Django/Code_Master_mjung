@@ -43,14 +43,25 @@
     <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
   </div>
 </div>
+<!-- =========================================================== -->
 
-
-
-
-
-
-
-
+<form method="post" action="{% url 'create_recomment' comments.id %}">
+    {%csrf_token%}
+    {%for recom_form in recomment_form%}
+        {%if recom_form.label != 'Comment' %}
+        {{recom_form.label}} : {{recom_form}}
+        {%endif%}
+    {%endfor%}
+    <input type="hidden" name="comment" value={{i.id}}>
+    <input type="submit">
+</form>
+<!-- 이부분 추가함 -->
+{%for recom in i.recomment_set.all%}
+↪{{recom}}<br>
+{%endfor%}
+<!--여기 이부분 -->
+<hr>
+<!-- =========================================================== -->
 
 
 

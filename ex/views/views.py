@@ -315,13 +315,13 @@ class Create_comment(View):
             "detail", commnets_id
         )  # redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
 
-def Create_recomment(request, jss_id):
+def Create_recomment(request, commnets_id):
     filled_form = ReCommentForm(request.POST) 
 
     if filled_form.is_valid():
         filled_form.save()
     
-    return redirect('detail', jss_id)
+    return redirect('detail', commnets_id)
 
 
 class Publish(LoginRequiredMixin, FormView):
