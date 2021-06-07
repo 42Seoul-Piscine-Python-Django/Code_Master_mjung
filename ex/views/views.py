@@ -251,6 +251,7 @@ def Profile_Edit(request):
 
 
 class ArticleView(ListView):
+    paginate_by = 10
     template_name = "post.html"
     model = Article
 
@@ -349,6 +350,7 @@ class Publish(LoginRequiredMixin, FormView):
 
 
 class PublicView(ListView):
+    # paginate_by = 10
     template_name = "post.html"
     model = Article
 
