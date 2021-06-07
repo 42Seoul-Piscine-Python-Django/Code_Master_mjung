@@ -14,4 +14,17 @@
         {% endfor %} {% endcomment %}
     </div>
 </div>
+
+<form method="post" action="{% url 'create_comment' comments.id %}">
+    {%csrf_token%}
+    {{comment_form}}
+    <input type="submit">
+</form>
+{% for i in object.comment_set.all %}
+
+<p>-> {{i}}</p>
+<p>{{i.author}}</p>
+<p>{{i.created_at}}</p>
+<hr>
+{%endfor%}
 {% endblock %}
