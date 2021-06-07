@@ -63,7 +63,7 @@ class TipModel(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     # User모델과 Profile을 1:1로 연결
     description = models.TextField(blank=True)
     nickname = models.CharField(max_length=40, blank=True)
@@ -76,7 +76,7 @@ class Profile(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=64, null=False)
     author = models.ForeignKey(
-        User, related_name="Article", on_delete=models.CASCADE, null=True
+        User, related_name="article", on_delete=models.CASCADE, null=True
     )
     created = models.DateTimeField(auto_now_add=True)
     # synopsis = models.CharField(max_length=312, null=False)
@@ -107,7 +107,7 @@ class ReComment(models.Model):
     body = models.CharField("Re_reply", max_length=150)
     created_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(
-        Article, related_name="Recomment", on_delete=models.CASCADE, null=True
+        User, related_name="Recomment", on_delete=models.CASCADE, null=False
     )
 
     def __str__(self):

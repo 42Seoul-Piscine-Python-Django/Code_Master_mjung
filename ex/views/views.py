@@ -320,8 +320,10 @@ def Create_recomment(request, commnets_id):
     filled_form = ReCommentForm(request.POST) 
 
     if filled_form.is_valid():
-        filled_form.save()
-    
+        recomment = filled_form.save(commit=False)
+        print(recomment.comment, recomment.body)
+        recomment.author = request.user
+        recomment.save()
     return redirect('detail', commnets_id)
 
 
