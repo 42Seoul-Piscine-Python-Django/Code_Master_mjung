@@ -18,9 +18,14 @@ urlpatterns = [
     path("detail/<pk>", views.article_detail, name="detail"),
     path("publicate/", views.PublicView.as_view(), name="publication"),
     path("publish/", views.Publish.as_view(), name="publish"),
-
-    path('create_comment/<int:commnets_id>', views.Create_comment.as_view() , name="create_comment"),
-
+    path(
+        "create_comment/<int:commnets_id>",
+        views.Create_comment.as_view(),
+        name="create_comment",
+    ),
+    path(
+        "create_recomment/<int:recomment_id>", views.Create_recomment, name="create_recomment"
+    ),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
