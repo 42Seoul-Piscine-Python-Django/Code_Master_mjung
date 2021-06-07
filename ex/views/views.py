@@ -17,7 +17,7 @@ from rush01 import settings
 from django.conf.urls.static import static
 
 
-from ex.forms import (
+from ex.forms.forms import (
     TipForm,
     DeleteTipForm,
     VoteForm,
@@ -27,7 +27,7 @@ from ex.forms import (
     PublishForm,
     CommentForm,
 )
-from ex.models import TipModel, Profile, Article
+from ex.models import TipModel, Profile, Article, ReComment
 from django.urls import reverse_lazy
 
 
@@ -283,7 +283,6 @@ def article_detail(request, pk):
 
     comment_form = CommentForm()
     comments = Article.objects.get(id=pk)
-
 
     return render(
         request,
