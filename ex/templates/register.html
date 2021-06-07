@@ -2,17 +2,19 @@
 {% load static %}
 {% load bootstrap3 %}
 {% block title %}
-    Register!! | by spark.
+Register!! | by spark.
 {% endblock %}
 
 {% block style %}
 {% endblock %}
 
 {% block content %}
-    <form action="{% url 'register' %}" method="post" class="form">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
-  </form>
-    <h1>Be a Good Cadet, then drink {{ request.session.anonymous }}-!</h1>
+<form action="{% url 'register' %}" method="post" class="form">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+</form>
+<div style="position: absolute; bottom: 2%;">
+  <h1>Be a Good Cadet, then drink {{ request.session.anonymous }}-!</h1>
+</div>
 {% endblock %}

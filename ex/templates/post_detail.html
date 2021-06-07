@@ -1,19 +1,22 @@
 {% extends 'base.html' %} {% load bootstrap3 %} {% block title %}{{ object.title
 }} | {% endblock title %} {% block content %}
 <div>
-  <h4 style="display: inline-block;">[{{ object.title }}]&nbsp;&nbsp;&nbsp;  </h4>
-  <h5 style="display: inline-block;">{{ object.author }}
-  </h5>
-  <h6 style="display: inline-block;">- {{ object.created }}</h6>
-  {% if user.is_authenticated %}
-  {% endif %}
-  <div class="lead">
+  <div class="row">
+    <h2 style="display: inline-block;">[{{ object.title }}]&nbsp;&nbsp;&nbsp; </h2>
+    <h5 style="display: inline-block;">{{ object.author }}
+    </h5>
+    <h6 style="display: inline-block;">- <span class="glyphicon glyphicon-time"></span>{{ object.created }}</h6>
+    {% if user.is_authenticated %}
+    {% endif %}
+  </div>
+  <hr>
+  <div class="post_content lead" style="min-height: 300px">
     <div>{{ object.content }}</div>
     {% comment %} {% for c in comments%}
     {% endfor %} {% endcomment %}
   </div>
 </div>
-
+<hr>
 
 
 <form method="post" action="{% url 'create_comment' comments.id %}">
@@ -28,7 +31,12 @@
 
 
 {% comment %} <p style="font-size:10px">->{{i}} &nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;
-  [{{i.created_at}}__by__{{i.author}}]</br></p> {% endcomment %}
+  [{{i.created_at}}__by__
+
+
+  {{i.author}}
+
+  ]</br></p> {% endcomment %}
 
 
 <div class="media">
@@ -44,19 +52,19 @@
 </div>
 
 <form method="post" action="{% url 'create_recomment' comments.id %}">
-    {%csrf_token%}
-    {%for recom_form in recomment_form%}
-        {%if recom_form.label != 'Comment' %}
-        {{recom_form.label}} : {{recom_form}}
-        {%endif%}
-    {%endfor%}
-    <input type="hidden" name="comment" value={{i.id}}>
-    <input type="submit">
+  {%csrf_token%}
+  {%for recom_form in recomment_form%}
+  {%if recom_form.label != 'Comment' %}
+  {{recom_form.label}} : {{recom_form}}
+  {%endif%}
+  {%endfor%}
+  <input type="hidden" name="comment" value={{i.id}}>
+  <input type="submit">
 </form>
 {%for recom in i.recomment_set.all%} &nbsp;&nbsp; &nbsp;&nbsp;
-&nbsp;&nbsp;↪ &nbsp;{{recom}}  &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;[{{recom.created_at}}__by__{{recom.author}}]</br>
+&nbsp;&nbsp;↪ &nbsp;{{recom}} &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;[{{recom.created_at}}__by__{{recom.author}}]</br>
 {%endfor%}
-<hr>
+
 
 
 
