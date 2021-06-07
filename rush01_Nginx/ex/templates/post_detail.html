@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% load bootstrap3 %} {% block title %}{{ object.title
+}} | {% endblock title %} {% block content %}
+<div>
+    <h1>{{ object.title }}</h1>
+    <h3 style="display: inline-block;">
+        {{ object.author }}
+    </h3>
+    <h5 style="display: inline-block;">- {{ object.created }}</h5>
+    {% if user.is_authenticated %}
+    {% endif %}
+    <div class="lead">
+        <div>{{ object.content }}</div>
+        {% comment %} {% for c in comments%}
+        {% endfor %} {% endcomment %}
+    </div>
+</div>
+
+<form method="post" action="{% url 'create_comment' comments.id %}">
+    {%csrf_token%}
+    {{comment_form}}
+    <input type="submit">
+</form>
+{% for i in object.comment_set.all %}
+
+<p>-> {{i}}</p>
+<p>{{i.author}}</p>
+<p>{{i.created_at}}</p>
+<hr>
+{%endfor%}
+{% endblock %}
