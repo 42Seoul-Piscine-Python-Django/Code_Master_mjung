@@ -1,10 +1,9 @@
 {% extends 'base.html' %} {% load bootstrap3 %} {% block title %}{{ object.title
 }} | {% endblock title %} {% block content %}
 <div>
-  <h5>[{{ object.title }}]</h5>
-  <h3 style="display: inline-block;">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.author }}
-  </h3>
+  <h4 style="display: inline-block;">[{{ object.title }}]&nbsp;&nbsp;&nbsp;  </h4>
+  <h5 style="display: inline-block;">{{ object.author }}
+  </h5>
   <h6 style="display: inline-block;">- {{ object.created }}</h6>
   {% if user.is_authenticated %}
   {% endif %}
@@ -33,7 +32,7 @@
 
 
 <div class="media">
-  <p class="pull-right"><small> test! today</small></p>
+  <p class="pull-right"><small> {{i.created_at}}</small></p>
   <a class="media-left" href="#">
     <img src={{i.author.profile.image.url}} height=50>
   </a>
