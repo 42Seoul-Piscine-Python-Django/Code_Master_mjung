@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.db import models
 from django.forms.widgets import HiddenInput, Textarea
-from ..models import Profile, Comment
+from ex.models import Profile, Comment, ReComment
 from django.contrib.auth import get_user_model
 
 
@@ -75,10 +75,18 @@ class PublishForm(forms.Form):
     # synopsis = forms.CharField(max_length=312, required=True)
     content = forms.CharField(widget=Textarea(), required=True)
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('body',)
+        fields = ("body",)
+
+
+class ReCommentForm(forms.ModelForm):
+    class Meta:
+        model = ReComment
+        fields = ("body", "comment")
+
 
 # class RegisterForm(forms.Form):
 #     id = forms.CharField(min_length=6, max_length=32, required=True)
