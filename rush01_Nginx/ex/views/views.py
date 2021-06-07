@@ -17,7 +17,7 @@ from rush01 import settings
 from django.conf.urls.static import static
 
 
-from ex.forms import (
+from ex.forms.forms import (
     TipForm,
     DeleteTipForm,
     VoteForm,
@@ -26,8 +26,9 @@ from ex.forms import (
     RegisterForm,
     PublishForm,
     CommentForm,
+    ReCommentForm,
 )
-from ex.models import TipModel, Profile, Article
+from ex.models import TipModel, Profile, Article, ReComment
 from django.urls import reverse_lazy
 
 
@@ -250,6 +251,7 @@ def Profile_Edit(request):
 
 
 class ArticleView(ListView):
+    paginate_by = 10
     template_name = "post.html"
     model = Article
 
@@ -283,12 +285,17 @@ def article_detail(request, pk):
 
     comment_form = CommentForm()
     comments = Article.objects.get(id=pk)
-
+    recomment_form = ReCommentForm()
 
     return render(
         request,
         "post_detail.html",
-        {"object": article, "comments": comments, "comment_form": comment_form},
+        {
+            "object": article,
+            "comments": comments,
+            "comment_form": comment_form,
+            "recomment_form": recomment_form,
+        },
     )
 
 
@@ -308,6 +315,16 @@ class Create_comment(View):
         return redirect(
             "detail", commnets_id
         )  # redirect('애칭', parameter) 해주면 google.com/1 이런식으로 뒤에 붙는 값을 지정해줄수있다.
+
+def Create_recomment(request, commnets_id):
+    filled_form = ReCommentForm(request.POST) 
+
+    if filled_form.is_valid():
+        recomment = filled_form.save(commit=False)
+        print(recomment.comment, recomment.body)
+        recomment.author = request.user
+        recomment.save()
+    return redirect('detail', commnets_id)
 
 
 class Publish(LoginRequiredMixin, FormView):
@@ -335,6 +352,7 @@ class Publish(LoginRequiredMixin, FormView):
 
 
 class PublicView(ListView):
+    paginate_by = 10
     template_name = "post.html"
     model = Article
 
