@@ -35,7 +35,7 @@
 <div class="media">
   <p class="pull-right"><small> test! today</small></p>
   <a class="media-left" href="#">
-    <img src={{i.author}}>
+    <img src={{i.author.profile.image.url}} height=50>
   </a>
   <div class="media-body">
     <h5 class="media-heading user_name">{{i.author}}</h5>
@@ -55,7 +55,7 @@
     <input type="submit">
 </form>
 {%for recom in i.recomment_set.all%} &nbsp;&nbsp; &nbsp;&nbsp;
-&nbsp;&nbsp;↪ &nbsp;{{recom}}  &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;[{{recom.created_at}}__by__{{recom.author_id}}]</br>
+&nbsp;&nbsp;↪ &nbsp;{{recom}}  &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;[{{recom.created_at}}__by__{{recom.author}}]</br>
 {%endfor%}
 <hr>
 
