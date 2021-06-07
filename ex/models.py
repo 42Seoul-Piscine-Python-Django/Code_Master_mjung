@@ -92,7 +92,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Article, on_delete=models.CASCADE)
-    body = models.CharField("댓글", max_length=150)
+    body = models.CharField("reply", max_length=150)
     created_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(
         User, related_name="Comment", on_delete=models.CASCADE, null=True
@@ -104,10 +104,10 @@ class Comment(models.Model):
 
 class ReComment(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    body = models.CharField("대댓글", max_length=150)
+    body = models.CharField("Re_reply", max_length=150)
     created_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(
-        User, related_name="Recomment", on_delete=models.CASCADE, null=True
+        Article, related_name="Recomment", on_delete=models.CASCADE, null=True
     )
 
     def __str__(self):
