@@ -1,11 +1,11 @@
 {% extends 'base.html' %} {% load bootstrap3 %} {% block title %}{{ object.title
 }} | {% endblock title %} {% block content %}
 <div>
-    <h1>{{ object.title }}</h1>
-    <h3 style="display: inline-block;">
-        {{ object.author }}
-    </h3>
-    <h5 style="display: inline-block;">- {{ object.created }}</h5>
+    <h3>[{{ object.title }}]</h3>
+    <h5 style="display: inline-block;">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.author }}
+    </h5>
+    <h6 style="display: inline-block;">- {{ object.created }}</h6>
     {% if user.is_authenticated %}
     {% endif %}
     <div class="lead">
@@ -15,6 +15,8 @@
     </div>
 </div>
 
+
+
 <form method="post" action="{% url 'create_comment' comments.id %}">
     {%csrf_token%}
     {{comment_form}}
@@ -22,9 +24,44 @@
 </form>
 {% for i in object.comment_set.all %}
 
-<p>-> {{i}}</p>
-<p>{{i.author}}</p>
-<p>{{i.created_at}}</p>
-<hr>
+
+
+
+
+{% comment %} <p style="font-size:10px">->{{i}} &nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp; [{{i.created_at}}__by__{{i.author}}]</br></p> {% endcomment %}
+
+
+<div class="media">
+   <p class="pull-right"><small> test! today</small></p>
+    <a class="media-left" href="#">
+      <img src={{i.aut}}>
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading user_name">{{i.author}}</h4>
+      {{i.body}}
+      <p><small><a href="">Like</a> - <a href="">Share</a></small></p>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <h6 style="font-size=10px">
+&nbsp; {{i.created_at}} &nbsp; by &nbsp;&nbsp;{{i.author}}</h6> {% endcomment %}
+
+{% comment %} <form method="post" action="{% url 'create_comment' comments.id %}">
+    {%csrf_token%}
+    {{comment_form}}
+    <input type="submit">
+</form> {% endcomment %}
+
+{% comment %} <h6 style="font-size=10px">{{i.author}}</h6> {% endcomment %}
 {%endfor%}
 {% endblock %}
